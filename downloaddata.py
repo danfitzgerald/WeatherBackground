@@ -1,3 +1,13 @@
+'''
+Copyright 2020 Daniel Fitzgerald
+
+"downloaddata.py" downloads all forcasts for all weather stations in Canada.
+It's purpose is to download the forecasts in .js format and exctract Weather station
+locations and produce a list of all weather stations in Canada with their corresponding
+urls. It may also be used to download current conditions in parts of Canada to be
+analysed etc...
+'''
+
 import urllib.request
 from urllib.error import URLError
 
