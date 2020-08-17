@@ -10,11 +10,16 @@ analysed etc...
 
 import urllib.request
 from urllib.error import URLError
+import os
 
 DATASET_LOC = "dataset/unprocessed_pages.txt"
 FAILURE_ATTEMPTS = 15 # Number of times to skip pages that return 404.
 
 def main():
+    if os.path.isfile(DATASET_LOC):
+        print('File at %s already exists. If you are attempting to redownload data'
+              ' from weather.gc.ca please delete the file at %s first.' % (DATASET_LOC, DATASET_LOC))
+        return
     lead_url = 'https://weather.gc.ca/wxlink/site_js/s'
     digit_len = 7
     trail_url = '_e.js'
