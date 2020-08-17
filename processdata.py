@@ -7,6 +7,7 @@ a table of weather station names and their corresponding urls.
 
 import re
 from downloaddata import DATASET_LOC
+import os
 
 
 PROCESSED_DATA_LOC = 'dataset/city_prov_url.csv'
@@ -53,8 +54,10 @@ class WeatherStation:
         return self._province
     def getUrl(self):
         return self._url
+    
     def getCsvRow(self):
         return self.getCity() + ',' + self.getProvince() + ',' + self.getUrl()
+    
     def __str__(self):
         return "'" + self.getCity() + ', ' + self.getProvince() + ', ' + self.getUrl() + "'"
     def __repr__(self):
@@ -72,10 +75,19 @@ def generate_csv(stations):
 
 
 def main():
-    raw_data = load_file(DATASET_LOC)
-    stations = extract_stations(raw_data)
-    # todo: save csv data
-    print(generate_csv(stations))
+    # First test if output file already exists
+    if os.path.isfile(PROCESSED_DATA_LOC):
+        print("Processed data at %s already exists. If you wish to rebuild data"
+              " delete the file at %s." % (PROCESSED_DATA_LOC, PROCESSED_DATA_LOC))
+    elif not os.path.isfile(DATASET_LOC):
+        print('File at %s does not exist. Raw data has not been downloaded from'
+              ' weather.gc.ca. You must run "downloaddata.py" first.' % DATASET_LOC)
+    else: # If tests pass
+        raw_data = load_file(DATASET_LOC)
+        stations = extract_stations(raw_data)
+        csv = generate_csv(stations)
+        with open(PROCESSED_DATA_LOC, mode='w') as data_file:
+            data_file.write(csv)
 
 
 if __name__ == '__main__':
