@@ -8,6 +8,7 @@ a table of weather station names and their corresponding urls.
 import re
 from downloaddata import DATASET_LOC
 import os
+import weatherstation
 
 
 PROCESSED_DATA_LOC = 'dataset/city_prov_url.csv'
@@ -35,43 +36,9 @@ def extract_stations(raw_data):
         city = cities[i]
         province = provinces[i]
         url = urls[i]
-        stations.append(WeatherStation(city, province, url))
+        stations.append(weatherstation.WeatherStation(city, province, url))
 
     return stations
-
-
-# Setup an abstract object to make dealing with weather stations easier
-# to understand.
-class WeatherStation:
-    def __init__(self, city, province, url):
-        self._city = city
-        self._province = province
-        self._url = url
-
-    def getCity(self):
-        return self._city
-    def getProvince(self):
-        return self._province
-    def getUrl(self):
-        return self._url
-    
-    def getCsvRow(self):
-        return self.getCity() + ',' + self.getProvince() + ',' + self.getUrl()
-    
-    def __str__(self):
-        return "'" + self.getCity() + ', ' + self.getProvince() + ', ' + self.getUrl() + "'"
-    def __repr__(self):
-        return self.__str__()
-
-
-def generate_csv(stations):
-    csv = ''
-    for station in stations:
-        if csv == '':
-            csv = station.getCsvRow()
-        else:
-            csv += '\n' + station.getCsvRow()
-    return csv
 
 
 def main():
@@ -85,7 +52,7 @@ def main():
     else: # If tests pass
         raw_data = load_file(DATASET_LOC)
         stations = extract_stations(raw_data)
-        csv = generate_csv(stations)
+        csv = weatherstation.station_to_csv(stations)
         with open(PROCESSED_DATA_LOC, mode='w') as data_file:
             data_file.write(csv)
 
