@@ -120,3 +120,13 @@ def csv_to_station(csv_data):
         station = WeatherStation(city, prov, url)
         stations.append(station)
     return stations
+
+def search_for_station(wxStations, city):
+    stations = []
+    # Linear search for station
+    for station in wxStations:
+        if city.upper() == station.getCity().upper():
+            return [station]
+        elif city.upper() in station.getCity().upper():
+            stations.append(station)
+    return stations
