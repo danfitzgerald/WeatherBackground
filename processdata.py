@@ -1,5 +1,5 @@
 '''
-Copyright 2020 Daniel Fitzgerald
+Copyright (C) 2020 Daniel Fitzgerald
 
 "processdata.py" processes data downloaded by "downloaddata.py". It extracts
 a table of weather station names and their corresponding urls.

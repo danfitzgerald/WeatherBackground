@@ -1,5 +1,5 @@
 '''
-Copyright 2020 Daniel Fitzgerald
+Copyright (C) 2020 Daniel Fitzgerald
 
 "downloaddata.py" downloads all forcasts for all weather stations in Canada.
 Its purpose is to download the forecasts in .js format and exctract Weather station
