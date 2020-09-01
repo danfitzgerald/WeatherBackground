@@ -26,45 +26,8 @@ class WeatherStation:
             self._province = province
             self._url = url
         elif js:
-            self._js = js
-            self._city = None
-            self._province = None
             self._url = url
-            self._temperature = None
-            self._windDir = None
-            self._windSpeed = None
-            self._userFriendlyUrl = None
-            
-            def findRe(exp, s):
-                m = re.findall(exp, s)
-                if len(m) > 0: return m[0]
-                else: return None
-                
-            for line in js.split('\n'):
-                if self._city == None:
-                    m = findRe('var cityName = "(.*)"', line)
-                    if not m == None:
-                        self._city = m
-                if self._province == None:
-                    m = findRe('var provinceName = "(.*)"', line)
-                    if not m == None:
-                        self._province = m
-                if self._temperature == None:
-                    m = findRe('var obTemperature = "(.*)"', line)
-                    if not m == None:
-                        self._temperature = m
-                if self._windDir == None:
-                    m = findRe('var obWindDir = "(.*)"', line)
-                    if not m == None:
-                        self._windDir = m
-                if self._windSpeed == None:
-                    m = findRe('var obWindSpeed = "(.*)"', line)
-                    if not m == None:
-                        self._windSpeed = m
-                if self._userFriendlyUrl == None:
-                    m = findRe('var cityURL = "(.*)"', line)
-                    if not m == None:
-                        self._userFriendlyUrl = m
+            self.applyJs(js)
 
     # Getters
     def getCity(self):
@@ -84,7 +47,47 @@ class WeatherStation:
         return self._windDir
     def getUserFriendlyUrl(self):
         return self._userFriendlyUrl
-    
+
+    def applyJs(self, js):
+        self._js = js
+        self._city = None
+        self._province = None
+        self._temperature = None
+        self._windDir = None
+        self._windSpeed = None
+        self._userFriendlyUrl = None
+        
+        def findRe(exp, s):
+            m = re.findall(exp, s)
+            if len(m) > 0: return m[0]
+            else: return None
+                
+        for line in js.split('\n'):
+            if self._city == None:
+                m = findRe('var cityName = "(.*)"', line)
+                if not m == None:
+                    self._city = m
+            if self._province == None:
+                m = findRe('var provinceName = "(.*)"', line)
+                if not m == None:
+                    self._province = m
+            if self._temperature == None:
+                m = findRe('var obTemperature = "(.*)"', line)
+                if not m == None:
+                    self._temperature = m
+            if self._windDir == None:
+                m = findRe('var obWindDir = "(.*)"', line)
+                if not m == None:
+                    self._windDir = m
+            if self._windSpeed == None:
+                m = findRe('var obWindSpeed = "(.*)"', line)
+                if not m == None:
+                    self._windSpeed = m
+            if self._userFriendlyUrl == None:
+                m = findRe('var cityURL = "(.*)"', line)
+                if not m == None:
+                    self._userFriendlyUrl = m
+
     def getCsvRow(self):
         return self.getCity() + ',' + self.getProvince() + ',' + self.getUrl()
     
